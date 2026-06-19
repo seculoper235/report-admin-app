@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:report_admin_app/api/api_client.dart';
 import 'package:report_admin_app/api/token_storage.dart';
-import 'package:report_admin_app/pages/home_page.dart';
 import 'package:report_admin_app/pages/login_page.dart';
+import 'package:report_admin_app/pages/product_list_page.dart';
 
 /// 전역 네비게이터 키. 토큰 만료(401) 시 어디서든 로그인 화면으로 전환하기 위해 사용.
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -34,7 +34,7 @@ class AdminApp extends StatelessWidget {
           onAuthenticated: () => navigatorKey.currentState!
               .pushNamedAndRemoveUntil('/home', (_) => false),
         ),
-        '/home': (_) => const HomePage(),
+        '/home': (_) => const ProductListPage(),
       },
       home: const _AuthGate(),
     );
@@ -55,7 +55,7 @@ class _AuthGate extends StatelessWidget {
             body: Center(child: CircularProgressIndicator()),
           );
         }
-        if (snapshot.data ?? false) return const HomePage();
+        if (snapshot.data ?? false) return const ProductListPage();
         return LoginPage(
           onAuthenticated: () => navigatorKey.currentState!
               .pushNamedAndRemoveUntil('/home', (_) => false),

@@ -32,6 +32,21 @@ class ApiClient {
     Object? body,
   }) => _send('POST', uri, headers: headers, body: body);
 
+  Future<http.Response> put(
+    Uri uri, {
+    Map<String, String>? headers,
+    Object? body,
+  }) => _send('PUT', uri, headers: headers, body: body);
+
+  Future<http.Response> patch(
+    Uri uri, {
+    Map<String, String>? headers,
+    Object? body,
+  }) => _send('PATCH', uri, headers: headers, body: body);
+
+  Future<http.Response> delete(Uri uri, {Map<String, String>? headers}) =>
+      _send('DELETE', uri, headers: headers);
+
   Future<http.Response> _send(
     String method,
     Uri uri, {
@@ -70,6 +85,12 @@ class ApiClient {
         return _client.get(uri, headers: merged);
       case 'POST':
         return _client.post(uri, headers: merged, body: body);
+      case 'PUT':
+        return _client.put(uri, headers: merged, body: body);
+      case 'PATCH':
+        return _client.patch(uri, headers: merged, body: body);
+      case 'DELETE':
+        return _client.delete(uri, headers: merged);
       default:
         throw ArgumentError('지원하지 않는 메서드: $method');
     }
