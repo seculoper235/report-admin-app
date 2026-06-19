@@ -112,15 +112,7 @@ class _ProductRegisterPageState extends State<ProductRegisterPage> {
       );
       if (!mounted) return;
       AppToast.success('상품이 등록되었습니다');
-      _formKey.currentState!.reset();
-      _name.clear();
-      _brand.clear();
-      _pointCost.clear();
-      setState(() {
-        _imageUrl = null;
-        _pickedName = null;
-        _message = null;
-      });
+      Navigator.of(context).pop(true); // 목록으로 돌아가 갱신
     } catch (e) {
       setState(() => _message = e.toString().replaceFirst('Exception: ', ''));
     } finally {
