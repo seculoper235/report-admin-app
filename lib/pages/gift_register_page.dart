@@ -107,13 +107,7 @@ class _GiftRegisterPageState extends State<GiftRegisterPage> {
       );
       if (!mounted) return;
       AppToast.success('기프티콘이 등록되었습니다 (적재 $count건)');
-      _code.clear();
-      setState(() {
-        _barcodeObjectKey = null;
-        _pickedName = null;
-        _validUntil = null;
-        _message = null;
-      });
+      Navigator.of(context).pop(true); // 목록으로 돌아가 갱신
     } catch (e) {
       setState(() => _message = e.toString().replaceFirst('Exception: ', ''));
     } finally {

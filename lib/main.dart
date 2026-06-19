@@ -29,6 +29,14 @@ class AdminApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
         useMaterial3: true,
       ),
+      // 입력 필드 밖을 터치하면 키보드를 내린다(앱 전역).
+      builder: (context, child) {
+        return GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: child ?? const SizedBox.shrink(),
+        );
+      },
       routes: {
         '/login': (_) => LoginPage(
           onAuthenticated: () => navigatorKey.currentState!
