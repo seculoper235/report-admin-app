@@ -16,38 +16,11 @@ class GiftListPage extends StatefulWidget {
   State<GiftListPage> createState() => _GiftListPageState();
 }
 
-// TODO(임시): UI 확인용 목 데이터. 백엔드 연동 확인 후 제거하고 _useMockData=false 로 둘 것.
-const bool _useMockData = true;
-
-Future<List<GiftInventory>> _mockCodes() async {
-  await Future<void>.delayed(const Duration(milliseconds: 300));
-  final now = DateTime.now();
-  return [
-    GiftInventory(
-      giftInventoryId: 1,
-      status: GiftStatus.available,
-      validUntil: now.add(const Duration(days: 90)),
-    ),
-    GiftInventory(
-      giftInventoryId: 2,
-      status: GiftStatus.available,
-      validUntil: now.add(const Duration(days: 30)),
-    ),
-    GiftInventory(
-      giftInventoryId: 3,
-      status: GiftStatus.reserved,
-      validUntil: now.add(const Duration(days: 7)),
-    ),
-    // ISSUED(지급완료)는 목록에서 제외되므로 목 데이터에도 넣지 않는다.
-  ];
-}
-
 class _GiftListPageState extends State<GiftListPage> {
   late Future<List<GiftInventory>> _codesFuture;
 
-  Future<List<GiftInventory>> _loadCodes() => _useMockData
-      ? _mockCodes()
-      : AdminApi.instance.fetchCodes(widget.product.productId);
+  Future<List<GiftInventory>> _loadCodes() =>
+      AdminApi.instance.fetchCodes(widget.product.productId);
 
   @override
   void initState() {
