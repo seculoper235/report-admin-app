@@ -38,6 +38,7 @@ dependencies:
   flutter_secure_storage: ^9.2.2
   image_picker: ^1.1.2
   intl: ^0.20.2
+  flutter_launcher_icons: ^0.14.4
 
 dev_dependencies:
   flutter_test:
@@ -49,6 +50,14 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
+
+flutter_launcher_icons:
+  android: true # 안드로이드 플랫폼에 런처 아이콘 적용 여부
+  ios: true # iOS 플랫폼에 런처 아이콘 적용 여부
+  image_path: "assets/icons/christmas_ring.png" # 런처 아이콘으로 사용할 이미지 경로
+  adaptive_icon_background: "#ffffff" # 안드로이드 적응형 아이콘의 배경색 (검정색)
+  adaptive_icon_foreground: "assets/icons/christmas_ring.png" # 안드로이드 적응형 아이콘의 전경 이미지 경로
+  min_sdk_android: 21 # 안드로이드 최소 SDK 버전 (API 21(Android 5.0) 이상)
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -65,6 +74,8 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/icons/ # 앱에서 사용하는 에셋 파일 디렉터리 명시
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
