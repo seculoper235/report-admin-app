@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:report_admin_app/api/admin_api.dart';
@@ -62,6 +63,11 @@ class _GiftRegisterPageState extends State<GiftRegisterPage> {
     });
     try {
       final bytes = await picked.readAsBytes();
+
+      // 바코드/QR 디코딩 → 코드 자동입력. 인식 결과는 보정 가능하도록 채워만 둔다.
+      final scanned = await _scanBarcode(picked.path);
+      if (scanned != null) _code.text = scanned;
+
       final result = await AdminApi.instance.uploadImage(
         UploadType.barcodeImage,
         bytes,
@@ -70,11 +76,29 @@ class _GiftRegisterPageState extends State<GiftRegisterPage> {
       setState(() {
         _barcodeObjectKey = result.objectKey;
         _pickedName = picked.name;
+        _message = scanned == null
+            ? '바코드를 자동 인식하지 못했어요. 코드를 직접 입력해 주세요.'
+            : null;
       });
     } catch (e) {
       setState(() => _message = e.toString().replaceFirst('Exception: ', ''));
     } finally {
       if (mounted) setState(() => _uploading = false);
+    }
+  }
+
+  /// 선택한 이미지에서 첫 번째 바코드/QR 값을 디코딩한다. 없으면 null.
+  Future<String?> _scanBarcode(String path) async {
+    final scanner = BarcodeScanner();
+    try {
+      final barcodes = await scanner.processImage(InputImage.fromFilePath(path));
+      for (final b in barcodes) {
+        final value = b.rawValue;
+        if (value != null && value.isNotEmpty) return value;
+      }
+      return null;
+    } finally {
+      await scanner.close();
     }
   }
 
